@@ -18,7 +18,7 @@
 ### 2. Send request command:
 
 * Send **RC_PING** command (Remote Code Ping) to get response with propogation time/TOF.
-  * `$PUWV,RC,0,0,0*5E<CR><LF>`
+  * `PUWV2,0,0,0`
 * Checksum calculation: XOR of all bytes after $ up to * (standard NMEA method).
 
 
@@ -26,7 +26,7 @@
 
 ### 3. Get response with propagation time (Tp in seconds) and other info:
 
-* `$PUWV,RC,tp,msr,az*checksum<CR><LF>`
+* `$PUWV3,txCh,rcCmdID,propTime,MSR*hh<CR><LF>` (example: "$PUWV3,0,0,0.667,25.40*3F")
 
   * tp = propagation time in seconds (e.g. 0.667 > ~1 km round-trip > ~500 m one-way)
   * msr = signal-to-noise ratio / mark level in dB
