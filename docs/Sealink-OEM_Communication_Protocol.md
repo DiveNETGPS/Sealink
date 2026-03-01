@@ -50,9 +50,9 @@
   - **5.1.3** [Example 3 – Setting up the Ambient Data Configuration](#513-example-3--setting-up-the-ambient-data-configuration)
   - **5.1.4** [Example 4 – Enabling Packet Mode](#514-example-4--enabling-packet-mode)
   - **5.1.5** [Example 5 – Sending a Packet in Packet Mode and Receiving Acknowledgement](#515-example-5--sending-a-packet-in-packet-mode-and-receiving-acknowledgement)
-  - **5.1.6** [Example 6 – Receiving an Incoming Packet](#516--example-6-receiving-an-incoming-packet)
+  - **5.1.6** [Example 6 – Receiving an Incoming Packet](#516--example-6--receiving-an-incoming-packet)
   - **5.1.7** [Example 7 – Requesting Remote Temperature (Logical Addressing)](#517-example-7--requesting-remote-temperature-logical-addressing)
-  - **5.1.8** [Example 8 – Enabling Automatic Ambient Data Output (1-second interval)](#518--example-8-enabling-automatic-ambient-data-output-1second-interval)
+  - **5.1.8** [Example 8 – Enabling Automatic Ambient Data Output (1-second interval)](#518-example-8--enabling-automatic-ambient-data-output-1second-interval)
   - **5.1.9** [Example 9 – Requesting Device Information (Alternative Syntax)](#519-example-9--requesting-device-information-alternative-syntax)
 
 - **5.2** [Configuration Recipes](#52-configuration-recipes)
