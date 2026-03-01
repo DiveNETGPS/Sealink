@@ -1,4 +1,4 @@
-# DiveNET Sealink-OEM Hydroacoustic Modem  
+# DiveNET: Sealink-OEM Subsea Wireless Modem  
 Protocol Specification v1.0
 
 **Document Date**: February 2026  
