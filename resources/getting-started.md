@@ -1,4 +1,4 @@
-# DiveNET: Sealink-OEM - Requirements
+# DiveNET: Sealink-OEM - Getting Started
 
 ## 1. Barebones operation
 
