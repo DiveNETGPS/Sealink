@@ -2,8 +2,7 @@
 
 ## 1. Barebones operation
 
-The modem can operate independetly as a remote responder able to receive and respond to standard command requests without a data interface to a host system.  
-To operate the modem as a remote responder in minimum configuration:  
+The modem can operate independetly as a remote responder able to receive and respond to standard command requests without a data interface to a host system. To operate the modem as a remote responder in minimum configuration:  
 
 - Connect the transducer to connector XP1 (OUT)
 - Connect a +12-14V power supply to connector XP2 (POWER)
