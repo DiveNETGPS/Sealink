@@ -1,6 +1,6 @@
 # DiveNET: Sealink-OEM Subsea Wireless Modem
 
-**Sealink-OEM** is a compact, high-reliability underwater acoustic modem and communication platform by DiveNET Subsea Wireless (Beringia Enterprises LLC).
+**Sealink-OEM** is a compact, high-reliability underwater acoustic modem and communication platform by DiveNET Subsea Wireless (Beringia Enterprises LLC).  
 
 ## Key features:
 - Highly compact (75 mm x 44 mm PCB)
@@ -22,7 +22,7 @@
 5. Refine performance with improved distance formula and setting of correct ambient parameters.
 6. Use Python or similar to build automated control over serial connector XP5.
 
-Full documentation → see `/docs/` folder.
+Full documentation → see [docs](docs) folder.
 
 ## Download & Resources
 - [Requirements](/resources/requirements.md)
