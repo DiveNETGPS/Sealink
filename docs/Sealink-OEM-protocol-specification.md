@@ -1,5 +1,5 @@
 # DiveNET: Sealink-OEM Subsea Wireless Modem  
-Protocol Specification v1.0
+## Protocol Specification v1.0
 
 **Document Date**: February 2026  
 **Revision**: 1.0  
@@ -409,17 +409,158 @@ Packet mode enables reliable data transfer up to 64 bytes, including arbitrary d
 ### 5. Appendix
 
 5.1 Command Mode Examples  
-(Examples use correct checksums and <CR><LF> terminators. Replace `hh` with actual calculated checksum.)
+- Examples use correct checksums and <CR><LF> terminators. Replace `hh` with actual calculated checksum.
+- Examples use "<<" to indicate outbound messages/querries and ">>" to indicate inbound messages/responses.
 
 **5.1.1 Example 1 – Requesting Device Information**  
-<< `$PUWV?,0*27<CR><LF>`
->> `$PUWV!,3A001E000E51363437333330,SEALINK,1.00,SEALINK_CORE,1.01,9600,0,0,20,35.0,1,1*XX<CR><LF>`
+
+`<< $PUWV?,0*27<CR><LF>`
+
+`>> $PUWV!,3A001E000E51363437333330,SEALINK,1.00,SEALINK_CORE,1.01,9600,0,0,20,35.0,1,1*XX<CR><LF>`
+
+**Explanation**:  
+
+- PUWV? = IC_H2D_DINFO_GET  
+- Response includes serial number, system/core versions, baud rate, channel IDs, salinity, sensor presence, and Command Mode status.
 
 **5.1.2 Example 2 – Requesting Remote Depth**  
-<< `$PUWV2,0,0,2*28<CR><LF>`
->> `$PUWV0,2,036<CR><LF>` (ACK)
->> `$PUWV3,0,2,0.667,25.40,12.34XX<CR><LF>` (response: propTime=0.667 s, depth=12.34 m)
+
+`<< $PUWV2,0,0,2*28<CR><LF>`
+
+`>> $PUWV0,2,036<CR><LF>` (ACK: request accepted, no error)
+
+`>> $PUWV3,0,2,0.667,25.40,12.34XX<CR><LF>` (response: propTime=0.667 s, depth=12.34 m)
+
+**Explanation**:  
+
+- PUWV2 = IC_H2D_RC_REQUEST  
+- 2 = RC_DPT_GET  
+- Response: propagation time (s), signal quality (MSR in dB), and remote depth (m)
 
 **5.1.3 Example 3 – Setting up the Ambient Data Configuration**
-<< `$PUWV6,1,1000,1,1,1,1*03<CR><LF>`
 
+`<< $PUWV6,1,1000,1,1,1,1*03<CR><LF>`
+
+`>> $PUWV0,6,032<CR><LF>` (ACK: request accepted, no error)
+
+`>> $PUWV7,1025.2,29.9,-0.014,5.018<CR><LF>`  (periodic ambient data)
+
+`>> $PUWV7,1026.3,29.9,-0.002,5.0*1D<CR><LF>`  (next reading)
+
+**Explanation**:  
+
+- PUWV6 = IC_H2D_AMB_DTA_CFG  
+- 1 = save to flash  
+- 1000 = 1-second interval  
+- 1,1,1,1 = enable pressure, temperature, depth, VCC  
+- PUWV7 = IC_D2H_AMB_DTA (pressure in mBar, temperature in °C, depth in m, VCC in V)
+
+**5.1.4 Example 4 – Enabling Packet Mode**  
+
+`<< $PUWVF,1,1,0*5E<CR><LF>`
+
+`>> $PUWVE,1,0*40<CR><LF>`
+
+**Explanation**:  
+
+- PUWVF = IC_H2D_PT_SETTINGS_WRITE  
+- 1 = save to flash  
+- 1 = enable packet mode  
+- 0 = local modem address  
+- PUWVE = IC_D2H_PT_SETTINGS (confirms packet mode enabled, address 0)
+
+**Note**: Since firmware 1.20+, packet mode is active in Command Mode — no separate enable required.
+
+**5.1.5 Example 5 – Sending a Packet in Packet Mode and Receiving Acknowledgement**  
+
+`<< $PUWVG,0,8,0x313233*2C<CR><LF>`
+
+`>> $PUWV0,G,043<CR><LF>` (ACK: request accepted, no error)
+
+`>> $PUWVI,0,1,,0x31323307<CR><LF>` (packet delivered successfully)
+  
+**Explanation**:  
+
+- PUWVG = IC_H2D_PT_SEND  
+- 0 = target address  
+- 8 = max attempts  
+- 0x313233 = hex bytes for "123"  
+- PUWVI = IC_D2H_PT_DLVRD (0 = target, 1 = attempts, empty = no azimuth)
+
+**5.1.6 Example 6 – Receiving an Incoming Packet**  
+
+`>> $PUWVJ,42,,0x48656C6C6F*XX<CR><LF>`
+
+**Explanation**:  
+
+- PUWVJ = IC_D2H_PT_RCVD  
+- 42 = sender address  
+- (empty) = no azimuth  
+- 0x48656C6C6F = hex bytes for "Hello"  
+
+No host action required — incoming packet is delivered automatically.
+
+**5.1.7 Example 7 – Requesting Remote Temperature (Logical Addressing)**  
+
+`<< $PUWVK,10,1*XX<CR><LF>`
+
+`>> $PUWVM,10,1,28.50,0.667,XX<CR><LF>` (success)
+
+`>> $PUWVL,10,1XX<CR><LF>` (timeout)
+
+**Explanation**:  
+
+- PUWVK = IC_H2D_PT_ITG  
+- 10 = target address  
+- 1 = dataID (temperature)  
+- PUWVM = IC_D2H_PT_ITG_RESP (temperature 28.50 °C, propTime 0.667 s)  
+- PUWVL = IC_D2H_PT_ITG_TMO (timeout)
+
+**5.1.8 Example 8 – Enabling Automatic Ambient Data Output (1-second interval)**  
+
+`<< $PUWV6,1,1000,1,1,1,1*03<CR><LF>`
+
+`>> $PUWV0,6,032<CR><LF>` (ACK: request accepted, no error)
+
+`>> $PUWV7,1025.2,29.9,-0.014,5.018<CR><LF>` (periodic output)
+
+`>> $PUWV7,1026.3,29.9,-0.002,5.0*1D<CR><LF>`
+
+**Explanation**:  
+
+- PUWV6 = IC_H2D_AMB_DTA_CFG  
+- 1 = save to flash  
+- 1000 ms interval  
+- 1,1,1,1 = enable pressure, temperature, depth, VCC
+
+**5.1.9 Example 9 – Requesting Device Information (Alternative Syntax)**  
+
+`<< $PUWV?,0*27<CR><LF>`
+
+`>> $PUWV!,3A001E000E51363437333330,SEALINK,1.00,SEALINK_CORE,1.01,9600,0,0,20,35.0,1,1*XX<CR><LF>`
+
+**Explanation**:  
+
+- Same as 5.1.1 — included here for completeness. Shows legacy syntax still works.
+
+### 5.2 Configuration Recipes
+
+1. **Set default settings (fresh water, Command mode disabled)**  
+`$PUWV1,0,0,0.0,0,0,9.8067*XX<CR><LF>`
+
+2. **Enable Command mode by default, seawater salinity**  
+`$PUWV1,0,0,35.0,1,0,9.8067*XX<CR><LF>`
+
+3. **Disable automatic ambient data output**  
+`$PUWV6,0,0,0,0,0,0*32<CR><LF>`
+
+5. **Enable ambient data every 5 seconds (pressure + temperature only)**  
+`$PUWV6,0,5000,1,1,0,0*XX<CR><LF>`
+
+7. **Request local depth (basic)**  
+`$PUWV2,0,0,2*28<CR><LF>`
+
+(Checksums must be calculated correctly before sending.)
+
+___
+Questions or support? Contact support@divenetgps.com
