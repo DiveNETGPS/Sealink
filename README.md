@@ -2,7 +2,7 @@
 
 <img src="/docs/images/img002.jpg" alt="Sealink-OEM" width="50%">
 
-**Sealink-OEM** is a compact, high-reliability underwater acoustic modem and communication platform developed by DiveNET Subsea Wireless (Beringia Enterprises LLC).
+**Sealink-OEM** is a compact, high-reliability underwater acoustic modem and communication platform produced by DiveNET Subsea Wireless (Beringia Enterprises LLC).
 
 ### Key Features
 - Extremely compact PCB: 73.5 mm × 44 mm
