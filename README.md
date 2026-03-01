@@ -13,10 +13,10 @@
 - 255 logical addresses (responders) and 20 code channels
 - 9600 bps UART interface (3.3 V logic)
 - Built-in support for external pressure/temperature sensor (I²C on XP6)
-- GNSS and RF module expansion (XP7 & XP8)
+- GNSS and RF module expansion
 - Built-in Time-of-Flight (ToF) ranging with ~0.15 m resolution
-- Tx/Rx strobe output (SVC/CMD on XP5 Pin 3) for external high-precision timing
-- Designed for ROV, AUV, diver systems, subsea IoT, and custom integrations
+- Tx/Rx strobe output for external timestamp capture
+- Designed for scalable subsea IoT, ROV, AUV, diver systems, and custom integrations
 
 ### Primary Specifications
 - **Board size**: 73.5 mm × 44 mm
