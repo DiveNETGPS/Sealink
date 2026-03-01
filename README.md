@@ -25,7 +25,7 @@
 Full documentation → see [docs](docs) folder.
 
 ## Download & Resources
-- [Requirements](/resources/requirements.md)
+- [Getting Started](/resources/getting-started.md)
 - [Ranging Python Script](/resources/uart-getRange.py)
 
 Questions? Contact DiveNET support: support@divenetgps.com
