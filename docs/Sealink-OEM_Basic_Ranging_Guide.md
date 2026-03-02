@@ -19,9 +19,9 @@ Distance is calculated as:
 
 ### General requirements
 - At least two Sealink-OEM units powered and at least one connected via UART (9600 baud, 8N1, 3.3 V logic) for serial communication with a host system.
-- Units must be on the same code channel (txChID and rxChID typically both 0 by default; configurable via protocol commands).
+- Units must be on the same code channel (`txChID` and `rxChID` typically both 0 by default; configurable via protocol commands).
 - Python environment with `pyserial` package installed on host machine.
-  - **Note on XP5 pin 3 (SVC/CMD): This pin functions as a digital strobe output for transmit/receive events. It can be used by external systems for independent ToF timing. It does not improve nominal precision. No user action is required for normal UART protocol operation.**
+  - **Note on XP5 pin 3 (`SVC/CMD`): This pin functions as a digital strobe output for transmit/receive events. It can be used by external systems for independent ToF timing. It does not improve nominal precision. No user action is required for normal UART protocol operation.**
 
 ### Dryland functional testing
 - Place transducers within six inches of each other.
@@ -135,4 +135,5 @@ ___
 Questions or need help with custom ranging setups? Contact support@divenetgps.com.
 
 Last updated: March 2026
+
 
