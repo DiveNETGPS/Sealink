@@ -29,7 +29,7 @@ Distance is calculated as:
 
 ### Water trials
 - Devices positioned inside direct line of sight (LoS) and within maximum acoustic range (1 km or 3 km depending on transducer option).
-- Supportive testing conditions - preferably open, calm waters, at least 3 m to surface and bottom, and away from any large, reflective surfaces.
+- Supportive testing conditions - preferably open, calm waters; transducers stationary and level (approximately) with at least 3 m to both surface and bottom, and removed from any adjacent large, reflective surfaces.
 
 ## 2. Manual Ranging (via Serial Terminal)
 
@@ -136,6 +136,7 @@ ___
 Questions or need help with custom ranging setups? Contact support@divenetgps.com.
 
 Last updated: March 2026
+
 
 
 
