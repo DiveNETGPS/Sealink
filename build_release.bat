@@ -11,8 +11,8 @@ if not exist "%PY%" (
     exit /b 1
 )
 
-if not exist "product\resources\sealink_gui.py" (
-    echo Missing GUI script: product\resources\sealink_gui.py
+if not exist "product\resources\sealink_utility.py" (
+    echo Missing utility script: product\resources\sealink_utility.py
     pause
     exit /b 1
 )
@@ -35,8 +35,8 @@ if exist build rmdir /s /q build
 if exist dist rmdir /s /q dist
 if exist release rmdir /s /q release
 
-echo Building GUI executable...
-"%PY%" -m PyInstaller --noconfirm --clean --onefile --windowed --name SealinkGUI "product\resources\sealink_gui.py"
+echo Building utility executable...
+"%PY%" -m PyInstaller --noconfirm --clean --onefile --windowed --name SealinkUtility "product\resources\sealink_utility.py"
 if errorlevel 1 goto :fail
 
 echo Building listener executable...
@@ -45,9 +45,9 @@ if errorlevel 1 goto :fail
 
 echo Creating release folder...
 mkdir "release\Sealink-OEM"
-copy /y "dist\SealinkGUI.exe" "release\Sealink-OEM\SealinkGUI.exe" >nul
+copy /y "dist\SealinkUtility.exe" "release\Sealink-OEM\SealinkUtility.exe" >nul
 copy /y "dist\SealinkListener.exe" "release\Sealink-OEM\SealinkListener.exe" >nul
-copy /y "release_assets\run_gui.bat" "release\Sealink-OEM\run_gui.bat" >nul
+copy /y "release_assets\run_utility.bat" "release\Sealink-OEM\run_utility.bat" >nul
 copy /y "release_assets\run_listener.bat" "release\Sealink-OEM\run_listener.bat" >nul
 copy /y "release_assets\run_all.bat" "release\Sealink-OEM\run_all.bat" >nul
 copy /y "release_assets\README_CUSTOMER.txt" "release\Sealink-OEM\README_CUSTOMER.txt" >nul

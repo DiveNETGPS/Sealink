@@ -5,7 +5,7 @@ REM Set working directory to script location
 cd /d "%~dp0"
 
 set "LISTENER=test_listener.py"
-set "GUI=product\resources\sealink_gui.py"
+set "GUI=product\resources\sealink_utility.py"
 
 if not exist "%LISTENER%" exit /b 1
 if not exist "%GUI%" exit /b 1
@@ -39,12 +39,12 @@ timeout /t 1 /nobreak >nul
 
 REM Start GUI without console when available
 if defined PYWCMD (
-    start "Sealink GUI" "%PYWCMD%" "%GUI%"
+    start "Sealink Utility" "%PYWCMD%" "%GUI%"
 ) else (
     if /I "%PYCMD%"=="py" (
-        start "Sealink GUI" py "%GUI%"
+        start "Sealink Utility" py "%GUI%"
     ) else (
-        start "Sealink GUI" "%PYCMD%" "%GUI%"
+        start "Sealink Utility" "%PYCMD%" "%GUI%"
     )
 )
 

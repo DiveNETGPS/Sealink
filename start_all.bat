@@ -5,7 +5,7 @@ REM Set working directory to script location
 cd /d "%~dp0"
 
 set "LISTENER=test_listener.py"
-set "GUI=product\resources\sealink_gui.py"
+set "GUI=product\resources\sealink_utility.py"
 
 if not exist "%LISTENER%" (
     echo Missing file: %LISTENER%
@@ -45,8 +45,8 @@ start "Sealink Listener" cmd /k "%PYCMD% "%LISTENER%""
 
 timeout /t 1 /nobreak >nul
 
-echo Starting GUI window...
-start "Sealink GUI" cmd /k "%PYCMD% "%GUI%""
+echo Starting utility window...
+start "Sealink Utility" cmd /k "%PYCMD% "%GUI%""
 
 echo.
 echo Both processes launched.

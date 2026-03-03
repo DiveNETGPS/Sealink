@@ -4,7 +4,7 @@ setlocal
 REM Set working directory to script location
 cd /d "%~dp0"
 
-set "SCRIPT=product\resources\sealink_gui.py"
+set "SCRIPT=product\resources\sealink_utility.py"
 
 if not exist "%SCRIPT%" (
     echo Missing file: %SCRIPT%

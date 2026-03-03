@@ -4,7 +4,7 @@ setlocal
 cd /d "%~dp0"
 
 set "SRC=release\Sealink-OEM"
-if not exist "%SRC%\SealinkGUI.exe" (
+if not exist "%SRC%\SealinkUtility.exe" (
     echo Release files not found in %SRC%
     echo Run build_release.bat.
     pause

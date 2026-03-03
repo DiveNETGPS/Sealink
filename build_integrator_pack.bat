@@ -36,7 +36,7 @@ mkdir "%OUT%\docs" >nul
 echo Copying platform files...
 copy /y "%SRC_ROOT%\resources\uart-getRange.py" "%OUT%\resources\uart-getRange.py" >nul
 copy /y "%SRC_ROOT%\resources\requirements.txt" "%OUT%\resources\requirements.txt" >nul
-copy /y "%SRC_ROOT%\resources\sealink_gui.py" "%OUT%\resources\sealink_gui.py" >nul
+copy /y "%SRC_ROOT%\resources\sealink_utility.py" "%OUT%\resources\sealink_utility.py" >nul
 
 copy /y "%SRC_ROOT%\integrations\arduino\SealinkOEM_Basic.ino" "%OUT%\integrations\arduino\SealinkOEM_Basic.ino" >nul
 copy /y "%SRC_ROOT%\integrations\raspberry-pi\run_sealink_cli.sh" "%OUT%\integrations\raspberry-pi\run_sealink_cli.sh" >nul

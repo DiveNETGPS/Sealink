@@ -6,7 +6,7 @@ The existing protocol logic is imported from uart-getRange so you keep
 all the parsing and checksum code in one place.
 
 Usage:
-    python sealink_gui.py
+    python sealink_utility.py
 
 Requirements are handled by the workspace venv; PySimpleGUI was added
 via pip.  Feel free to convert this to Tkinter or a web frontend later.
