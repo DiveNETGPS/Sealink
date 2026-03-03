@@ -84,7 +84,7 @@ Example:
 
 ## 3. Automated Ranging with Python Script
 
-The repo currently includes a [basic ranging script](resources/uart-getRange.py).
+The repo currently includes a [basic ranging script](../resources/uart-getRange.py).
 
 This script:
 
@@ -96,7 +96,7 @@ This script:
 Basic usage:
 
 1. Edit the script to set your COM port (e.g., COM3 on Windows, /dev/ttyUSB0 on Linux/Mac).
-2. Run: `python uart-getRange.py`
+2. Run: `python resources/uart-getRange.py`
 3. Observe the printed range (or error if no response).
 
 Example output (if successful):

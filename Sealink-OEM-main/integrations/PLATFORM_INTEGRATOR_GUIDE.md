@@ -10,6 +10,11 @@ Send `release/Sealink-OEM`.
 
 This is the turnkey package with `.exe` binaries and `.bat` launchers for normal day-to-day use.
 
+When to resend this package to testers:
+- Resend only for intentional candidate builds that change app/runtime behavior.
+- Do not resend for GitHub sync only, documentation updates, or other non-runtime changes.
+- Keep the previously published Operator Package as the active testing baseline until a new candidate is announced.
+
 ### Version B: Integrator Package (technical users)
 Send `release/Sealink-Integrator-Pack` (or its zip) created by:
 - `build_integrator_pack.bat`
