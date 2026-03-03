@@ -15,10 +15,4 @@ Repository landing page and navigation.
 - Root-level build/release scripts (`*.bat`, `*.spec`, `VERSION.txt`) are packaging utilities.
 - `release/` and `release_assets/` hold generated/customer-facing distribution assets.
 
-## Testing release policy
-
-- Do not resend a new tester app for GitHub sync-only or documentation-only updates.
-- Resend the Operator Package only when candidate runtime behavior changes.
-- Keep one published test baseline until a new candidate is intentionally announced.
-
 Questions: support@divenetgps.com
