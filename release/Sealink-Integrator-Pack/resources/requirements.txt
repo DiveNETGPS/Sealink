@@ -1,0 +1,2 @@
+# requirements.txt - Python packages needed for scripts in this folder
+pyserial>=3.5
