@@ -39,7 +39,7 @@ def compute_sound_speed(T, S, D):
 
 # build UI
 root = tk.Tk()
-root.title('Sealink OEM Tester')
+root.title('Sealink OEM')
 
 frm = ttk.Frame(root, padding=10)
 frm.grid()
