@@ -6,7 +6,7 @@ cd /d "%~dp0"
 set "SRC=release\Sealink-OEM"
 if not exist "%SRC%\SealinkGUI.exe" (
     echo Release files not found in %SRC%
-    echo Run build_release.bat first.
+    echo Run build_release.bat.
     pause
     exit /b 1
 )
@@ -24,7 +24,7 @@ if exist "%OUT%" del /f /q "%OUT%"
 echo Creating %OUT% ...
 powershell -NoProfile -Command "Compress-Archive -Path '%SRC%\*' -DestinationPath '%OUT%' -CompressionLevel Optimal"
 if errorlevel 1 (
-    echo Failed to create zip.
+    echo Zip creation failed.
     pause
     exit /b 1
 )

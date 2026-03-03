@@ -6,7 +6,7 @@ cd /d "%~dp0"
 set "PY=.venv\Scripts\python.exe"
 if not exist "%PY%" (
     echo Missing .venv\Scripts\python.exe
-    echo Create the virtual environment first, then install requirements.
+    echo Create virtual environment and install requirements.
     pause
     exit /b 1
 )
@@ -23,14 +23,14 @@ if not exist "test_listener.py" (
     exit /b 1
 )
 
-echo Installing/updating Python dependencies...
+echo Installing Python dependencies...
 "%PY%" -m pip install -r "product\resources\requirements.txt"
 if errorlevel 1 goto :fail
 
 "%PY%" -m pip install --upgrade pyinstaller
 if errorlevel 1 goto :fail
 
-echo Cleaning old artifacts...
+echo Cleaning artifacts...
 if exist build rmdir /s /q build
 if exist dist rmdir /s /q dist
 if exist release rmdir /s /q release
@@ -60,6 +60,6 @@ exit /b 0
 
 :fail
 echo.
-echo Build failed. See output above.
+echo Build failed.
 pause
 exit /b 1

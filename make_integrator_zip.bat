@@ -28,7 +28,7 @@ if exist "%OUT%" del /f /q "%OUT%"
 echo Creating %OUT% ...
 powershell -NoProfile -Command "Compress-Archive -Path '%SRC%\*' -DestinationPath '%OUT%' -CompressionLevel Optimal"
 if errorlevel 1 (
-    echo Failed to create zip.
+    echo Zip creation failed.
     exit /b 1
 )
 
