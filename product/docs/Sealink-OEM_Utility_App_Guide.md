@@ -16,7 +16,7 @@ Operator package location:
 
 - `release/Sealink-OEM`
 
-Main files:
+Main Files:
 
 - `SealinkUtility.exe` (main app)
 - `SealinkListener.exe` (test/demo listener)
@@ -24,7 +24,7 @@ Main files:
 - `run_listener.bat` (start listener only)
 - `run_all.bat` (start listener + utility)
 
-Typical use:
+Typical Use:
 
 1. Connect hardware and identify COM port.
 2. Start `run_utility.bat`.
@@ -40,13 +40,13 @@ From repository root:
 - Start both windows: `start_all.bat`
 - Quiet start: `start_all_quiet.bat`
 
-Underlying script:
+Underlying Script:
 
 - `product/resources/sealink_utility.py`
 
 ## 4. Utility Inputs
 
-Required/typical fields:
+Required/Typical Fields:
 
 - Serial port (for example `COM3`)
 - TX channel

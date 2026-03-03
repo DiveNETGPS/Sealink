@@ -13,11 +13,11 @@ Use this index to navigate modem documentation and software tooling guides.
 ## Utility App and Tools
 
 - [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md)
-- [CLI/Test Script (`uart-getRange.py`)](../resources/uart-getRange.py)
+- [CLI/Test Script (uart-getRange.py)](../resources/uart-getRange.py)
 
 ## Integration References
 
-- [Integrator Platform Guide](../PLATFORM_INTEGRATOR_GUIDE.md)
+- [Integrator Platform Guide](../integrations/PLATFORM_INTEGRATOR_GUIDE.md)
 - [Arduino Example](../integrations/arduino/SealinkOEM_Basic.ino)
 - [Raspberry Pi CLI Runner](../integrations/raspberry-pi/run_sealink_cli.sh)
 

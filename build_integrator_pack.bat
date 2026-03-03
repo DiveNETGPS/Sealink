@@ -32,6 +32,7 @@ mkdir "%OUT%\resources" >nul
 mkdir "%OUT%\integrations\arduino" >nul
 mkdir "%OUT%\integrations\raspberry-pi" >nul
 mkdir "%OUT%\docs" >nul
+mkdir "%OUT%\docs\images" >nul
 
 echo Copying platform files...
 copy /y "%SRC_ROOT%\resources\uart-getRange.py" "%OUT%\resources\uart-getRange.py" >nul
@@ -41,6 +42,7 @@ copy /y "%SRC_ROOT%\resources\sealink_utility.py" "%OUT%\resources\sealink_utili
 copy /y "%SRC_ROOT%\integrations\arduino\SealinkOEM_Basic.ino" "%OUT%\integrations\arduino\SealinkOEM_Basic.ino" >nul
 copy /y "%SRC_ROOT%\integrations\raspberry-pi\run_sealink_cli.sh" "%OUT%\integrations\raspberry-pi\run_sealink_cli.sh" >nul
 copy /y "%SRC_ROOT%\integrations\PLATFORM_INTEGRATOR_GUIDE.md" "%OUT%\PLATFORM_INTEGRATOR_GUIDE.md" >nul
+copy /y "%SRC_ROOT%\integrations\PLATFORM_INTEGRATOR_GUIDE.md" "%OUT%\integrations\PLATFORM_INTEGRATOR_GUIDE.md" >nul
 
 echo Copying core docs...
 if exist "%SRC_ROOT%\docs\README.md" (
@@ -55,6 +57,9 @@ if exist "%SRC_ROOT%\docs\Sealink-OEM_Utility_App_Guide.md" (
 )
 if exist "%SRC_ROOT%\docs\Sealink-OEM_Technical_Drawing.pdf" (
     copy /y "%SRC_ROOT%\docs\Sealink-OEM_Technical_Drawing.pdf" "%OUT%\docs\Sealink-OEM_Technical_Drawing.pdf" >nul
+)
+if exist "%SRC_ROOT%\docs\images" (
+    xcopy /e /i /y "%SRC_ROOT%\docs\images" "%OUT%\docs\images" >nul
 )
 
 echo.

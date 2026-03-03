@@ -2,7 +2,7 @@
 
 This guide explains how to perform basic range (distance) measurements using the Sealink-OEM acoustic modem over a serial (UART) interface. The system uses two-way travel time (propagation time) to calculate distance between two units.
 
-## Key principle
+## Key Principle
 
 The Sealink-OEM measures the acoustic propagation time from a ping request to the response.  
 The reported `propTime` is the **one-way** propagation time in seconds (from initiator to responder).
@@ -17,7 +17,7 @@ Distance is calculated as:
 
 ## 1. Requirements
 
-### General requirements
+### General Requirements
 - At least two Sealink-OEM units powered and at least one connected via UART (9600 baud, 8N1, 3.3 V logic) for serial communication with a host system.
 - Units must be on the same code channel (`txChID` and `rxChID` typically both 0 by default; configurable via protocol commands).
 - Python environment with `pyserial` package installed on host machine.
@@ -29,13 +29,13 @@ Distance is calculated as:
 
 ### Water trials
 - Devices positioned inside direct line of sight (LoS) and within maximum acoustic range (1 km or 3 km depending on transducer option).
-- Supportive testing conditions - preferably open, calm waters; transducers stationary and level (approximately) with at least 3 m to both surface and bottom, and removed from any adjacent large, reflective surfaces.
+- Supportive testing conditions: preferably open, calm waters; transducers stationary and approximately level; at least 3 m to both surface and bottom; and separated from adjacent large reflective surfaces.
 
 ## 2. Manual Ranging (via Serial Terminal)
 
 Use any serial terminal (PuTTY, Tera Term, screen, minicom, etc.) at 9600 8N1.
 
-### Step-by-step example:
+### Step-by-step Example
 
 **1. Connect to the local (initiator) unit via UART.**
 
@@ -88,23 +88,37 @@ The repo currently includes a [basic ranging script](../resources/uart-getRange.
 
 This script:
 
-- Opens a serial port (set correct port name in the code)
+- Opens a serial port (via `--port` argument or interactive prompt)
 - Sends a single ping request using sentence `$PUWV2,0,0,0*2A`
 - Waits for and parses a `$PUWV3` sentence response
-- Prints the calculated range using a hardcoded sound speed of 1500 m/s
+- Calculates sound speed from user inputs (depth, temperature, salinity)
+- Prints propagation time and calculated slant range
 
-Basic usage:
+Basic usage (from repository root):
 
-1. Edit the script to set your COM port (e.g., COM3 on Windows, /dev/ttyUSB0 on Linux/Mac).
-2. Run: `python resources/uart-getRange.py`
-3. Observe the printed range (or error if no response).
+1. Run: `python resources/uart-getRange.py`
+2. Enter prompted values (port, channels, depth, temperature, salinity), or provide them as CLI arguments.
+3. Observe the printed propagation time and range (or error if no response).
+
+Example with explicit arguments:
+`python resources/uart-getRange.py --port COM3 --tx 0 --rx 0 --test ping --depth 5 --temp 15 --salinity 35`
 
 Example output (if successful):
 `Range: 3733.5 m`
 
-**Note: The test script is designed for basic range testing only. For accurate results, add improved distance formula, set accurate ambient parameters, and multiple result avereging.**
+**Note: The script is designed for basic range testing only. For improved accuracy, use measured local environmental values and average multiple runs.**
 
-## 4. Sound Speed Compensation Table
+## 4. Basic Ranging with Sealink-OEM Utility App
+
+The Sealink-OEM Utility app can run the same basic ping/ranging workflow without command-line entry.
+
+- Set serial port, channels, and environmental values directly in the app fields.
+- Select `ping` and run the command.
+- Review propagation time and calculated slant range in the app output panel.
+
+See [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md) for full app workflow details.
+
+## 5. Sound Speed Compensation Table
 
 Sound speed varies with temperature, salinity, and depth. Use these approximate values or measure on-site.
 
@@ -116,15 +130,15 @@ Sound speed varies with temperature, salinity, and depth. Use these approximate 
 | Seawater            | 25        | 35             | 0         | 1534              |
 | Deep ocean (avg)    | 4         | 35             | 1000+     | 1480–1550         |
 
-## 5. Tips for Reliable Ranging
+## 6. Tips for Reliable Ranging
 
-- Max range — Up to 1,000 m (SW-T100 transducer) / 3000 m (SW-T200/300 transducers) in supportive conditions (clear, calm, open water, low noise).
+- Max range — Up to 1,000 m (SW-T100 transducer) / 3,000 m (SW-T200/300 transducers) in supportive conditions (clear, calm, open water, low noise).
 - Shallow water / multipath — Use averaging (run script multiple times); avoid strong surface/bottom reflections or large reflective surfaces.
 - Signal quality (MSR) — Higher dB values indicate cleaner link.
 - No response? — Check: matching channels? Powered on? In water? Transducer connected?
 - Power saving — Units only transmit during pings; keep Rx duty cycle low.
 
-## 6. Troubleshooting Common Issues
+## 7. Troubleshooting Common Issues
 
 - No `$PUWV3` response → May receive `$PUWV4` (timeout); check acoustic path, verify remote listening, confirm channel match.
 - Inconsistent ranges → Environmental factors; repeat measurement and average manually.
