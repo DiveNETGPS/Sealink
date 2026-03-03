@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-REM Move to this BAT's folder (workspace root)
+REM Set working directory to script location
 cd /d "%~dp0"
 
 set "LISTENER=test_listener.py"
@@ -32,12 +32,12 @@ if not defined PYWCMD (
 
 if not defined PYCMD exit /b 1
 
-REM Start listener minimized (quiet but still running)
+REM Start listener minimized
 start "Sealink Listener" /min cmd /c "%PYCMD% "%LISTENER%""
 
 timeout /t 1 /nobreak >nul
 
-REM Start GUI without console when possible
+REM Start GUI without console when available
 if defined PYWCMD (
     start "Sealink GUI" "%PYWCMD%" "%GUI%"
 ) else (

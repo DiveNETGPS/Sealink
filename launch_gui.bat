@@ -1,18 +1,18 @@
 @echo off
 setlocal
 
-REM Move to this BAT's folder (workspace root)
+REM Set working directory to script location
 cd /d "%~dp0"
 
 set "SCRIPT=product\resources\sealink_gui.py"
 
 if not exist "%SCRIPT%" (
-    echo Could not find %SCRIPT%
+    echo Missing file: %SCRIPT%
     pause
     exit /b 1
 )
 
-REM Prefer local virtual environment if present
+REM Use local virtual environment when available
 if exist ".venv\Scripts\pythonw.exe" (
     start "" ".venv\Scripts\pythonw.exe" "%SCRIPT%"
     exit /b 0
@@ -23,7 +23,7 @@ if exist ".venv\Scripts\python.exe" (
     exit /b 0
 )
 
-REM Fallback to system Python launcher
+REM Use system Python launcher if needed
 where py >nul 2>nul
 if %errorlevel%==0 (
     start "" py "%SCRIPT%"
@@ -36,6 +36,6 @@ if %errorlevel%==0 (
     exit /b 0
 )
 
-echo Python was not found. Install Python or create a .venv in this folder.
+echo Python executable not found. Install Python or create .venv in this folder.
 pause
 exit /b 1

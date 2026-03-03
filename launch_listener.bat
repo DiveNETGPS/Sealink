@@ -1,26 +1,26 @@
 @echo off
 setlocal
 
-REM Move to this BAT's folder (workspace root)
+REM Set working directory to script location
 cd /d "%~dp0"
 
 set "SCRIPT=test_listener.py"
 
 if not exist "%SCRIPT%" (
-    echo Could not find %SCRIPT%
+    echo Missing file: %SCRIPT%
     pause
     exit /b 1
 )
 
 echo Starting listener...
 
-REM Prefer local virtual environment if present
+REM Use local virtual environment when available
 if exist ".venv\Scripts\python.exe" (
     ".venv\Scripts\python.exe" "%SCRIPT%"
     goto :done
 )
 
-REM Fallback to system Python launcher
+REM Use system Python launcher if needed
 where py >nul 2>nul
 if %errorlevel%==0 (
     py "%SCRIPT%"
@@ -33,10 +33,10 @@ if %errorlevel%==0 (
     goto :done
 )
 
-echo Python was not found. Install Python or create a .venv in this folder.
+echo Python executable not found. Install Python or create .venv in this folder.
 
 :done
 echo.
-echo Listener exited. Press any key to close.
+echo Listener exited.
 pause >nul
 exit /b 0
