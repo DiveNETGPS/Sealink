@@ -17,7 +17,7 @@ if exist "VERSION.txt" (
 )
 
 for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd-HHmm"') do set "STAMP=%%I"
-set "OUT=release\Sealink-OEM-v%VER%-%STAMP%.zip"
+set "OUT=release\Sealink-OEM-Utility-v%VER%-%STAMP%.zip"
 
 if exist "%OUT%" del /f /q "%OUT%"
 
