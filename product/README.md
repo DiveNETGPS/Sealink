@@ -58,19 +58,22 @@ Sealink-OEM supports interchangeable transducers for different mission profiles:
 
 Full documentation → see [docs](docs) folder.
 
-### Downloads & Resources
+### Documentation Map
+
+- [Documentation Index](docs/README.md)
+
+### Modem Documentation
+
 - [Getting Started](docs/Sealink-OEM_Getting_Started.md)
 - [Pinout & Interface](docs/Sealink-OEM_Pinout_and_Interface.md)
 - [Communication Protocol](docs/Sealink-OEM_Communication_Protocol.md)
-- [Technical Drawing](docs/Sealink-OEM_Technical_Drawing.pdf)
 - [Basic Ranging Guide](docs/Sealink-OEM_Basic_Ranging_Guide.md)
-- [Simple Ranging Script (Python)](resources/uart-getRange.py)
+- [Technical Drawing](docs/Sealink-OEM_Technical_Drawing.pdf)
 
-### Utility App (Windows)
-- Application name: **Sealink-OEM Utility**
-- Packaged executable: `SealinkUtility.exe`
-- Launcher script (package): `run_utility.bat`
-- Launcher script (repo/local): `launch_utility.bat`
+### Utility App Documentation
+
+- [Sealink-OEM Utility App Guide](docs/Sealink-OEM_Utility_App_Guide.md)
+- [CLI/Test Script](resources/uart-getRange.py)
 
 ___
 Questions? Contact DiveNET support: support@divenetgps.com

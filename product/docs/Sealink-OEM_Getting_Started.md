@@ -36,6 +36,7 @@ We recommend Python:
 - Use our sample Python script for initial testing and familiarization.
 - The script accepts command-line options (for example `--port`, `--tx`, `--rx`, `--test`) and prompts for any missing values.
 - For interactive operation, use the Sealink-OEM Utility app and enter port/channels/environment values in the app fields.
+- See [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md) for app workflows.
 
 Other options:  
 - C# (Windows apps)  
@@ -46,19 +47,11 @@ Other options:
 - [Connector pinout guide](Sealink-OEM_Pinout_and_Interface.md)
 - [Communication protocol](Sealink-OEM_Communication_Protocol.md) 
 
-## 5. Utility app (Windows package)
+## 5. Next steps
 
-For packaged Windows operation:
-
-- Main executable: `SealinkUtility.exe`
-- Start utility only: `run_utility.bat`
-- Start listener + utility (demo/test workflow): `run_all.bat`
-
-For local repo use (Python):
-
-- Launch utility: `launch_utility.bat`
-- Launch listener: `launch_listener.bat`
-- Launch both: `start_all.bat`
+- For app-focused operation (Windows package + local launch scripts), continue with [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md).
+- For command details, use [Communication protocol](Sealink-OEM_Communication_Protocol.md).
+- For range testing specifics, use [Basic Ranging Guide](Sealink-OEM_Basic_Ranging_Guide.md).
 
 ___
 Questions? Write to support@divenetgps.com.

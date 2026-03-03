@@ -108,7 +108,17 @@ Example output (if successful):
 
 **Note: The script is designed for basic range testing only. For improved accuracy, use measured local environmental values and average multiple runs.**
 
-## 4. Sound Speed Compensation Table
+## 4. Basic Ranging with Sealink-OEM Utility App
+
+The Sealink-OEM Utility app can run the same basic ping/ranging workflow without command-line entry.
+
+- Set serial port, channels, and environmental values directly in the app fields.
+- Select `ping` and run the command.
+- Review propagation time and calculated slant range in the app output panel.
+
+See [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md) for full app workflow details.
+
+## 5. Sound Speed Compensation Table
 
 Sound speed varies with temperature, salinity, and depth. Use these approximate values or measure on-site.
 
@@ -120,7 +130,7 @@ Sound speed varies with temperature, salinity, and depth. Use these approximate 
 | Seawater            | 25        | 35             | 0         | 1534              |
 | Deep ocean (avg)    | 4         | 35             | 1000+     | 1480–1550         |
 
-## 5. Tips for Reliable Ranging
+## 6. Tips for Reliable Ranging
 
 - Max range — Up to 1,000 m (SW-T100 transducer) / 3000 m (SW-T200/300 transducers) in supportive conditions (clear, calm, open water, low noise).
 - Shallow water / multipath — Use averaging (run script multiple times); avoid strong surface/bottom reflections or large reflective surfaces.
@@ -128,7 +138,7 @@ Sound speed varies with temperature, salinity, and depth. Use these approximate 
 - No response? — Check: matching channels? Powered on? In water? Transducer connected?
 - Power saving — Units only transmit during pings; keep Rx duty cycle low.
 
-## 6. Troubleshooting Common Issues
+## 7. Troubleshooting Common Issues
 
 - No `$PUWV3` response → May receive `$PUWV4` (timeout); check acoustic path, verify remote listening, confirm channel match.
 - Inconsistent ranges → Environmental factors; repeat measurement and average manually.

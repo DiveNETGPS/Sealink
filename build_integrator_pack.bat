@@ -43,10 +43,16 @@ copy /y "%SRC_ROOT%\integrations\raspberry-pi\run_sealink_cli.sh" "%OUT%\integra
 copy /y "%SRC_ROOT%\integrations\PLATFORM_INTEGRATOR_GUIDE.md" "%OUT%\PLATFORM_INTEGRATOR_GUIDE.md" >nul
 
 echo Copying core docs...
+if exist "%SRC_ROOT%\docs\README.md" (
+    copy /y "%SRC_ROOT%\docs\README.md" "%OUT%\docs\README.md" >nul
+)
 copy /y "%SRC_ROOT%\docs\Sealink-OEM_Getting_Started.md" "%OUT%\docs\Sealink-OEM_Getting_Started.md" >nul
 copy /y "%SRC_ROOT%\docs\Sealink-OEM_Communication_Protocol.md" "%OUT%\docs\Sealink-OEM_Communication_Protocol.md" >nul
 copy /y "%SRC_ROOT%\docs\Sealink-OEM_Pinout_and_Interface.md" "%OUT%\docs\Sealink-OEM_Pinout_and_Interface.md" >nul
 copy /y "%SRC_ROOT%\docs\Sealink-OEM_Basic_Ranging_Guide.md" "%OUT%\docs\Sealink-OEM_Basic_Ranging_Guide.md" >nul
+if exist "%SRC_ROOT%\docs\Sealink-OEM_Utility_App_Guide.md" (
+    copy /y "%SRC_ROOT%\docs\Sealink-OEM_Utility_App_Guide.md" "%OUT%\docs\Sealink-OEM_Utility_App_Guide.md" >nul
+)
 if exist "%SRC_ROOT%\docs\Sealink-OEM_Technical_Drawing.pdf" (
     copy /y "%SRC_ROOT%\docs\Sealink-OEM_Technical_Drawing.pdf" "%OUT%\docs\Sealink-OEM_Technical_Drawing.pdf" >nul
 )

@@ -8,7 +8,9 @@ One-command build for both distributables:
 ### Version A: Operator Package (Windows, non-technical users)
 Send `release/Sealink-OEM`.
 
-This is the turnkey package with `.exe` binaries and `.bat` launchers for normal day-to-day use.
+This is the turnkey Windows Utility package with `.exe` binaries and `.bat` launchers for normal day-to-day use.
+
+See `docs/Sealink-OEM_Utility_App_Guide.md` for app-specific usage details.
 
 ### Version B: Integrator Package (technical users)
 Send `release/Sealink-Integrator-Pack` (or its zip) created by:
