@@ -66,6 +66,12 @@ Full documentation → see [docs](docs) folder.
 - [Basic Ranging Guide](docs/Sealink-OEM_Basic_Ranging_Guide.md)
 - [Simple Ranging Script (Python)](resources/uart-getRange.py)
 
+### Utility App (Windows)
+- Application name: **Sealink-OEM Utility**
+- Packaged executable: `SealinkUtility.exe`
+- Launcher script (package): `run_utility.bat`
+- Launcher script (repo/local): `launch_utility.bat`
+
 ___
 Questions? Contact DiveNET support: support@divenetgps.com
 

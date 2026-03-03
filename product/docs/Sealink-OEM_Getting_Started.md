@@ -2,7 +2,7 @@
 
 ## 1. Barebones operation
 
-The modem can operate independetly as a remote responder able to receive and respond to standard command requests without a data interface to a host system. To operate the modem as a remote responder in minimum configuration:  
+The modem can operate independently as a remote responder able to receive and respond to standard command requests without a data interface to a host system. To operate the modem as a remote responder in minimum configuration:  
 
 - Connect the transducer to connector XP1 (OUT)
 - Connect a +12-14V power supply to connector XP2 (POWER)
@@ -43,6 +43,20 @@ Other options:
 - [Sealink-OEM technical drawing](Sealink-OEM_Technical_Drawing.pdf)
 - [Connector pinout guide](Sealink-OEM_Pinout_and_Interface.md)
 - [Communication protocol](Sealink-OEM_Communication_Protocol.md) 
+
+## 5. Utility app (Windows package)
+
+For packaged Windows operation:
+
+- Main executable: `SealinkUtility.exe`
+- Start utility only: `run_utility.bat`
+- Start listener + utility (demo/test workflow): `run_all.bat`
+
+For local repo use (Python):
+
+- Launch utility: `launch_utility.bat`
+- Launch listener: `launch_listener.bat`
+- Launch both: `start_all.bat`
 
 ___
 Questions? Write to support@divenetgps.com.

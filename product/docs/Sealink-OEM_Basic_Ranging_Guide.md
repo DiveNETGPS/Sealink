@@ -93,7 +93,7 @@ This script:
 - Waits for and parses a `$PUWV3` sentence response
 - Prints the calculated range using a hardcoded sound speed of 1500 m/s
 
-Basic usage:
+Basic usage (from repository root):
 
 1. Edit the script to set your COM port (e.g., COM3 on Windows, /dev/ttyUSB0 on Linux/Mac).
 2. Run: `python resources/uart-getRange.py`
