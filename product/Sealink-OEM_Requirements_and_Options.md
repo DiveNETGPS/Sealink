@@ -4,6 +4,20 @@ This document summarizes the **mandatory requirements** for operating the Sealin
 
 ## Mandatory Requirements
 
+### Host Software Requirements (Native App and Integrator Workflows)
+
+#### Windows Native Utility Package
+- Target package: `release/Sealink-OEM`
+- OS: Windows 10 or Windows 11 (64-bit)
+- Python: not required for packaged `.exe` execution
+- Serial access: at least one available `COM` port through compatible USB-UART bridge or host UART interface
+
+#### Integrator / CLI Workflow
+- Target package: `release/Sealink-Integrator-Pack`
+- Python: 3.10 or newer (3.10–3.12 recommended)
+- Required Python dependency set from `resources/requirements.txt` (includes `pyserial`)
+- Linux/Raspberry Pi workflow requires shell access for `integrations/raspberry-pi/run_sealink_cli.sh`
+
 ### Power Supply
 - Voltage: +12 V DC nominal  
 - Range: 12 V minimum – 14 V maximum (±0.3 V tolerance)  

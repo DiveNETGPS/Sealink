@@ -2,6 +2,25 @@
 
 This guide covers packaged Windows usage and local repository launch workflows for the Sealink-OEM Utility app.
 
+## Minimum Host Requirements
+
+### A) Windows Utility Package (`release/Sealink-OEM`)
+
+- OS: Windows 10 or Windows 11 (64-bit)
+- No Python installation required for `.exe` usage
+- At least one available serial port (`COMx`) via USB-UART adapter or direct UART bridge
+- Local file write access in the package folder (for launch scripts and logs)
+
+### B) Integrator Package (`release/Sealink-Integrator-Pack`)
+
+- Python 3.10+ (3.10–3.12 validated)
+- `pip` available for dependency install
+- Packages from `resources/requirements.txt` (includes `pyserial`)
+- Platform workflows:
+	- Windows/Linux/macOS for Python CLI script usage
+	- Raspberry Pi/Linux shell script usage under `integrations/raspberry-pi`
+	- Arduino IDE for `integrations/arduino/SealinkOEM_Basic.ino`
+
 ## 1. Scope
 
 The Utility app is intended for:

@@ -21,7 +21,10 @@ standard library on Windows, so no external dependencies are required.
 
 import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
-import runpy, os, sys, time
+import importlib.util
+import os
+import sys
+import time
 
 # load protocol helpers from uart-getRange
 def resolve_uart_helper_path():
@@ -32,10 +35,14 @@ def resolve_uart_helper_path():
 
     checked_paths = []
     for directory in candidate_dirs:
-        candidate = os.path.join(directory, 'uart-getRange.py')
-        checked_paths.append(candidate)
-        if os.path.isfile(candidate):
-            return candidate
+        direct_candidate = os.path.join(directory, 'uart-getRange.py')
+        nested_candidate = os.path.join(directory, 'product', 'resources', 'uart-getRange.py')
+        dir_wrapped_candidate = os.path.join(directory, 'uart-getRange.py', 'uart-getRange.py')
+
+        for candidate in (direct_candidate, nested_candidate, dir_wrapped_candidate):
+            checked_paths.append(candidate)
+            if os.path.isfile(candidate):
+                return candidate
 
     checked_display = '\n'.join(checked_paths)
     raise FileNotFoundError(
@@ -44,11 +51,17 @@ def resolve_uart_helper_path():
 
 
 module_path = resolve_uart_helper_path()
-mod = runpy.run_path(module_path, run_name='sealink_uart_helpers')
-calculate_nmea_checksum = mod['calculate_nmea_checksum']
-send_rc_ping = mod['send_rc_ping']
-read_response = mod['read_response']
-serial = mod['serial']
+module_spec = importlib.util.spec_from_file_location('sealink_uart_helpers', module_path)
+if module_spec is None or module_spec.loader is None:
+    raise ImportError(f'Unable to create module spec for helper script: {module_path}')
+
+helper_module = importlib.util.module_from_spec(module_spec)
+module_spec.loader.exec_module(helper_module)
+
+calculate_nmea_checksum = helper_module.calculate_nmea_checksum
+send_rc_ping = helper_module.send_rc_ping
+read_response = helper_module.read_response
+serial = helper_module.serial
 
 # sound speed formula
 
