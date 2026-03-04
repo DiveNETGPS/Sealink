@@ -36,7 +36,7 @@ if exist dist rmdir /s /q dist
 if exist release rmdir /s /q release
 
 echo Building utility executable...
-"%PY%" -m PyInstaller --noconfirm --clean --onefile --windowed --name SealinkUtility "product\resources\sealink_utility.py"
+"%PY%" -m PyInstaller --noconfirm --clean --onefile --windowed --name SealinkUtility --add-data "product\resources\uart-getRange.py;." --hidden-import serial --hidden-import serial.tools.list_ports "product\resources\sealink_utility.py"
 if errorlevel 1 goto :fail
 
 echo Building listener executable...
