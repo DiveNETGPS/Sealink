@@ -24,8 +24,27 @@ from tkinter import ttk, scrolledtext, messagebox
 import runpy, os, sys, time
 
 # load protocol helpers from uart-getRange
-module_path = os.path.join(os.path.dirname(__file__), 'uart-getRange.py')
-mod = runpy.run_path(module_path)
+def resolve_uart_helper_path():
+    candidate_dirs = [os.path.dirname(os.path.abspath(__file__))]
+    pyinstaller_temp_dir = getattr(sys, '_MEIPASS', None)
+    if pyinstaller_temp_dir:
+        candidate_dirs.insert(0, pyinstaller_temp_dir)
+
+    checked_paths = []
+    for directory in candidate_dirs:
+        candidate = os.path.join(directory, 'uart-getRange.py')
+        checked_paths.append(candidate)
+        if os.path.isfile(candidate):
+            return candidate
+
+    checked_display = '\n'.join(checked_paths)
+    raise FileNotFoundError(
+        f"Unable to locate uart-getRange.py. Checked:\n{checked_display}"
+    )
+
+
+module_path = resolve_uart_helper_path()
+mod = runpy.run_path(module_path, run_name='sealink_uart_helpers')
 calculate_nmea_checksum = mod['calculate_nmea_checksum']
 send_rc_ping = mod['send_rc_ping']
 read_response = mod['read_response']
