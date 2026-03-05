@@ -15,6 +15,11 @@ Use this index to navigate modem documentation and software tooling guides.
 - [Sealink-OEM Utility App Guide](Sealink-OEM_Utility_App_Guide.md)
 - [CLI test script (uart-getRange.py)](../resources/uart-getRange.py)
 
+## Console Evolution (Feature Branch)
+
+- [Windows Console Roadmap](Windows_Console_Roadmap.md)
+- [Windows Console Reference Notes](Windows_Console_Reference_Notes.md)
+
 ## Integration References
 
 - [Integrator Platform Guide](../integrations/PLATFORM_INTEGRATOR_GUIDE.md)
