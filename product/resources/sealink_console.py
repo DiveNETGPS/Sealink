@@ -8,6 +8,7 @@ Current release tooling remains unchanged while this module evolves.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import importlib.util
 import json
 import os
@@ -40,6 +41,39 @@ def _print_result(result: ConsoleResult, as_json: bool) -> int:
         status = "OK" if result.ok else "ERROR"
         print(f"[{status}] {result.command}: {result.message}")
     return 0 if result.ok else 1
+
+
+def _append_log_line(log_file: str | None, message: str) -> None:
+    if not log_file:
+        return
+    parent = os.path.dirname(log_file)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(log_file, "a", encoding="utf-8") as f:
+        f.write(message + "\n")
+
+
+def _debug_print(args: argparse.Namespace, message: str) -> None:
+    if not getattr(args, "debug", False):
+        return
+    timestamp = dt.datetime.now().isoformat(timespec="seconds")
+    line = f"{timestamp} [DEBUG] {message}"
+    print(line, file=sys.stderr)
+    _append_log_line(getattr(args, "log_file", None), line)
+
+
+def _log_command_result(args: argparse.Namespace, result: ConsoleResult) -> None:
+    log_file = getattr(args, "log_file", None)
+    if not log_file:
+        return
+    payload = {
+        "ts": dt.datetime.now().isoformat(timespec="seconds"),
+        "command": result.command,
+        "ok": result.ok,
+        "message": result.message,
+        "data": result.data,
+    }
+    _append_log_line(log_file, json.dumps(payload, ensure_ascii=True))
 
 
 def _resolve_uart_helper_path() -> str:
@@ -156,6 +190,7 @@ def _read_first_nonempty_line(ser, timeout_sec: float) -> str | None:
 
 
 def cmd_link(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_link invoked")
     profile = _load_profile(args.profile)
     port, baud = _resolve_port_and_baud(args, profile)
     if not port:
@@ -196,6 +231,7 @@ def cmd_link(args: argparse.Namespace) -> ConsoleResult:
 
 
 def cmd_device_info(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_device_info invoked")
     profile = _load_profile(args.profile)
     port, baud = _resolve_port_and_baud(args, profile)
     if not port:
@@ -236,6 +272,7 @@ def cmd_device_info(args: argparse.Namespace) -> ConsoleResult:
 
 
 def cmd_ping(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_ping invoked")
     profile = _load_profile(args.profile)
     port, baud = _resolve_port_and_baud(args, profile)
     if not port:
@@ -293,6 +330,7 @@ def cmd_ping(args: argparse.Namespace) -> ConsoleResult:
 
 
 def cmd_list_ports(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_list_ports invoked")
     ports = []
     try:
         for p in list_ports.comports():
@@ -325,6 +363,7 @@ def cmd_list_ports(args: argparse.Namespace) -> ConsoleResult:
 
 
 def cmd_profile_set(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_profile_set invoked")
     profile = _load_profile(args.profile)
 
     if args.default_port is not None:
@@ -359,6 +398,7 @@ def cmd_monitor(args: argparse.Namespace) -> ConsoleResult:
 def cmd_shell(args: argparse.Namespace) -> ConsoleResult:
     shell_parser = build_parser()
     history_path = args.history_file or DEFAULT_HISTORY_PATH
+    _debug_print(args, f"cmd_shell invoked history={history_path}")
     _load_shell_history(history_path)
 
     print("Sealink console shell. Type 'help' for usage, 'exit' to quit.")
@@ -398,6 +438,10 @@ def cmd_shell(args: argparse.Namespace) -> ConsoleResult:
             tokens.extend(["--profile", args.profile])
         if args.json and "--json" not in tokens:
             tokens.append("--json")
+        if args.debug and "--debug" not in tokens:
+            tokens.append("--debug")
+        if args.log_file and "--log-file" not in tokens:
+            tokens.extend(["--log-file", args.log_file])
 
         try:
             nested_args = shell_parser.parse_args(tokens)
@@ -418,6 +462,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     output_parent = argparse.ArgumentParser(add_help=False)
     output_parent.add_argument("--json", action="store_true", help="Output JSON")
+    output_parent.add_argument("--debug", action="store_true", help="Enable debug diagnostics")
+    output_parent.add_argument("--log-file", help="Append command logs to file (JSON lines)")
     output_parent.add_argument(
         "--profile",
         help="Profile path (default: ~/.sealink_console_profile.json)",
@@ -471,6 +517,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _execute_args(args: argparse.Namespace) -> int:
     result = args.handler(args)
+    _log_command_result(args, result)
     return _print_result(result, as_json=getattr(args, "json", False))
 
 
