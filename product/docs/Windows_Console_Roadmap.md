@@ -45,7 +45,7 @@ Observed patterns to replicate:
 
 - [x] Live monitor command for periodic local/remote telemetry.
 - [x] Sampling interval and timeout controls.
-- [ ] CSV logging mode for field collection.
+- [x] CSV logging mode for field collection.
 - [ ] Console-friendly status table view.
 
 ### Phase 4: Packet and advanced operations
@@ -66,8 +66,8 @@ Before replacing current primary workflow, require:
 
 ## Near-term implementation order
 
-1. Add CSV export for monitor and test sessions.
+1. Refine console-friendly status table view and formatting presets.
 2. Start packet-mode command group design.
 3. Add a concise operator command reference page for shell usage.
-4. Add response formatting presets for operator vs automation output.
-5. Add monitor presets for common field test workflows.
+4. Add monitor presets for common field test workflows.
+5. Add response formatting presets for operator vs automation output.

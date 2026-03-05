@@ -8,6 +8,7 @@ Current release tooling remains unchanged while this module evolves.
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import importlib.util
 import json
@@ -74,6 +75,66 @@ def _log_command_result(args: argparse.Namespace, result: ConsoleResult) -> None
         "data": result.data,
     }
     _append_log_line(log_file, json.dumps(payload, ensure_ascii=True))
+
+
+def _write_monitor_csv(csv_file: str, samples: list[dict[str, Any]]) -> None:
+    parent = os.path.dirname(csv_file)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+
+    with open(csv_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(
+            f,
+            fieldnames=[
+                "iteration",
+                "elapsed_sec",
+                "ok",
+                "command",
+                "message",
+                "propagation_time_sec",
+                "slant_range_m",
+                "tx",
+                "rx",
+            ],
+        )
+        writer.writeheader()
+        for sample in samples:
+            data = sample.get("data") or {}
+            writer.writerow(
+                {
+                    "iteration": sample.get("iteration"),
+                    "elapsed_sec": sample.get("elapsed_sec"),
+                    "ok": sample.get("ok"),
+                    "command": sample.get("command"),
+                    "message": sample.get("message"),
+                    "propagation_time_sec": data.get("propagation_time_sec", ""),
+                    "slant_range_m": data.get("slant_range_m", ""),
+                    "tx": data.get("tx", ""),
+                    "rx": data.get("rx", ""),
+                }
+            )
+
+
+def _print_monitor_table(samples: list[dict[str, Any]]) -> None:
+    if not samples:
+        print("(no samples)")
+        return
+
+    print("iter  elapsed(s)  ok    command      message")
+    print("----  ----------  ----  -----------  -------")
+    for s in samples:
+        status = "yes" if s.get("ok") else "no"
+        cmd = str(s.get("command", ""))
+        msg = str(s.get("message", ""))
+        if len(msg) > 60:
+            msg = msg[:57] + "..."
+        print(
+            f"{int(s.get('iteration', 0)):>4}  "
+            f"{float(s.get('elapsed_sec', 0.0)):>10.3f}  "
+            f"{status:>4}  "
+            f"{cmd:<11}  "
+            f"{msg}"
+        )
 
 
 def _resolve_uart_helper_path() -> str:
@@ -442,7 +503,7 @@ def cmd_monitor(args: argparse.Namespace) -> ConsoleResult:
             }
             samples.append(sample)
 
-            if not args.json:
+            if not args.json and not args.table:
                 status = "OK" if result.ok else "ERROR"
                 print(f"[{status}] monitor#{iteration} {result.command}: {result.message}")
 
@@ -453,6 +514,11 @@ def cmd_monitor(args: argparse.Namespace) -> ConsoleResult:
 
             time.sleep(args.interval)
     except KeyboardInterrupt:
+        if args.csv:
+            _write_monitor_csv(args.csv, samples)
+        if args.table and not args.json:
+            _print_monitor_table(samples)
+
         return ConsoleResult(
             ok=True,
             command="monitor",
@@ -461,6 +527,11 @@ def cmd_monitor(args: argparse.Namespace) -> ConsoleResult:
         )
 
     all_ok = all(s["ok"] for s in samples) if samples else True
+    if args.csv:
+        _write_monitor_csv(args.csv, samples)
+    if args.table and not args.json:
+        _print_monitor_table(samples)
+
     return ConsoleResult(
         ok=all_ok,
         command="monitor",
@@ -607,6 +678,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_mon.add_argument("--interval", type=float, default=1.0, help="Poll interval seconds")
     p_mon.add_argument("--count", type=int, default=5, help="Number of iterations (0 = unlimited)")
     p_mon.add_argument("--duration", type=float, default=0.0, help="Total monitor duration seconds (0 = disabled)")
+    p_mon.add_argument("--csv", help="Write monitor samples to CSV file")
+    p_mon.add_argument("--table", action="store_true", help="Print compact tabular sample output")
     p_mon.set_defaults(handler=cmd_monitor)
 
     p_shell = sub.add_parser("shell", parents=[output_parent], help="Start interactive shell mode")
