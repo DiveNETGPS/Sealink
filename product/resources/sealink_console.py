@@ -413,13 +413,66 @@ def cmd_aliases(args: argparse.Namespace) -> ConsoleResult:
 
 
 def cmd_monitor(args: argparse.Namespace) -> ConsoleResult:
+    _debug_print(args, "cmd_monitor invoked")
+
+    mode_handlers = {
+        "ping": cmd_ping,
+        "device-info": cmd_device_info,
+        "list-ports": cmd_list_ports,
+    }
+    handler = mode_handlers[args.mode]
+
+    started = time.time()
+    samples: list[dict[str, Any]] = []
+    iteration = 0
+
+    try:
+        while True:
+            iteration += 1
+            result = handler(args)
+            elapsed = round(time.time() - started, 3)
+
+            sample = {
+                "iteration": iteration,
+                "elapsed_sec": elapsed,
+                "ok": result.ok,
+                "command": result.command,
+                "message": result.message,
+                "data": result.data,
+            }
+            samples.append(sample)
+
+            if not args.json:
+                status = "OK" if result.ok else "ERROR"
+                print(f"[{status}] monitor#{iteration} {result.command}: {result.message}")
+
+            reached_count = args.count > 0 and iteration >= args.count
+            reached_duration = args.duration > 0 and elapsed >= args.duration
+            if reached_count or reached_duration:
+                break
+
+            time.sleep(args.interval)
+    except KeyboardInterrupt:
+        return ConsoleResult(
+            ok=True,
+            command="monitor",
+            message="Monitor stopped by user.",
+            data={"iterations": iteration, "samples": samples},
+        )
+
+    all_ok = all(s["ok"] for s in samples) if samples else True
     return ConsoleResult(
-        ok=True,
+        ok=all_ok,
         command="monitor",
-        message=(
-            "Scaffold only. Implement periodic monitor loop with "
-            f"interval={args.interval}s."
-        ),
+        message=f"Monitor completed {iteration} iteration(s) in mode={args.mode}.",
+        data={
+            "mode": args.mode,
+            "interval_sec": args.interval,
+            "timeout_sec": args.timeout,
+            "count": args.count,
+            "duration_sec": args.duration,
+            "samples": samples,
+        },
     )
 
 
@@ -536,8 +589,24 @@ def build_parser() -> argparse.ArgumentParser:
     p_aliases = sub.add_parser("aliases", parents=[output_parent], help="Show command aliases")
     p_aliases.set_defaults(handler=cmd_aliases)
 
-    p_mon = sub.add_parser("monitor", parents=[output_parent], help="Start monitor mode")
+    p_mon = sub.add_parser("monitor", parents=[connection_parent], help="Start monitor mode")
+    p_mon.add_argument(
+        "--mode",
+        choices=["ping", "device-info", "list-ports"],
+        default="ping",
+        help="Monitor command mode",
+    )
+    p_mon.add_argument("--tx", type=int, help="Transmit channel (ping mode)")
+    p_mon.add_argument("--rx", type=int, help="Receive channel (ping mode)")
+    p_mon.add_argument(
+        "--sound-speed",
+        type=float,
+        default=1500.0,
+        help="Sound speed in m/s for range estimation (ping mode)",
+    )
     p_mon.add_argument("--interval", type=float, default=1.0, help="Poll interval seconds")
+    p_mon.add_argument("--count", type=int, default=5, help="Number of iterations (0 = unlimited)")
+    p_mon.add_argument("--duration", type=float, default=0.0, help="Total monitor duration seconds (0 = disabled)")
     p_mon.set_defaults(handler=cmd_monitor)
 
     p_shell = sub.add_parser("shell", parents=[output_parent], help="Start interactive shell mode")
